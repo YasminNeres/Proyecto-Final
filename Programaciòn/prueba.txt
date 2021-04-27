@@ -1,0 +1,70 @@
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.TextField;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class prueba  extends JFrame {
+
+		
+		public prueba() {
+			super("Añadir Usuario");
+			setSize(320,180);
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			Container contenedor = getContentPane();
+			
+			// Panel para la fecha 
+			
+			JPanel fecha = new JPanel();
+			fecha .setLayout(new FlowLayout());
+			fecha.add(new TextField(2));
+			fecha.add(new JLabel("/"));
+			fecha.add(new TextField(2));
+			fecha.add(new JLabel("/"));
+			fecha.add(new TextField(2));
+			
+			
+			contenedor.add(fecha);
+			
+			// Panel de datos
+			JPanel datos = new JPanel();
+			GridLayout g1 = new GridLayout(3,2,0,5);
+			datos.setLayout(g1);
+			datos.add(new JLabel("Nombre"));
+
+			datos.add(new JTextField(5));
+			datos.add(new JLabel("DNI"));
+			datos.add(new JTextField(10));
+			datos.add(new JLabel("Fecha de nascimiento"));
+			datos.add(fecha);
+			
+			
+			// Botones
+			
+			JPanel boton = new JPanel();
+			boton.setLayout(new FlowLayout());
+			boton.add(new JButton("Aceptar"));
+			boton.add(new JButton ("Cancelar"));
+			
+			contenedor.add(datos,BorderLayout.CENTER);
+			contenedor.add(boton,BorderLayout.SOUTH);
+			
+			
+			
+			contenedor.add(datos);
+			
+			
+		}
+		public static void main(String[] args) {
+			prueba fm2 = new prueba();
+			fm2.setVisible(true);
+
+		}
+
+}

@@ -1,0 +1,107 @@
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Logueo extends JFrame {
+	
+	private JTextField textField;
+	private String passwordField;
+
+
+
+	public static void main(String[] args) {
+		
+				try {
+					Logueo frame = new Logueo();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	}
+
+	
+	public Logueo() {
+		super("Añadir Usuario");
+		
+			
+		
+		getContentPane().setBackground(SystemColor.textInactiveText);
+		setSize(500,400);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Container contenedor = getContentPane();
+		getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(30, 144, 255));
+		panel.setBounds(0, 0, 519, 52);
+		getContentPane().add(panel);
+		
+		JLabel loguin= new JLabel("LOGUIN");
+		loguin.setVerticalAlignment(SwingConstants.TOP);
+		loguin.setFont(new Font("Source Serif Pro Light", Font.PLAIN, 30));
+		panel.add(loguin);
+		
+		JLabel Usuario = new JLabel("Usuario : ");
+	    Usuario.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 19));
+		Usuario.setForeground(new Color(255, 255, 255));
+		Usuario.setBounds(90, 185, 108, 24);
+		getContentPane().add(Usuario);
+		
+		JLabel Contraseña = new JLabel(" Contraseña: ");
+        Contraseña.setForeground(new Color(255, 255, 255));
+	    Contraseña.setFont(new Font("Source Sans Pro Black", Font.PLAIN, 19));
+		Contraseña.setBounds(80, 245, 118, 14);
+		getContentPane().add(Contraseña);
+		
+		
+		
+		
+		JTextField txtUsuario = new JTextField();
+		txtUsuario.setBounds(235, 188, 141, 24);
+		getContentPane().add(txtUsuario);
+		txtUsuario.setColumns(10);
+		
+		
+		
+		 JPasswordField ps = new JPasswordField  ();
+		ps.setBounds(235, 243, 141, 24);
+		getContentPane().add(ps);
+		
+		JButton btnEntrar = new JButton("Entrar");
+		
+		btnEntrar.addMouseListener((MouseListener) new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				String Usuario = "Administrador";
+				String Contraseña = "123456";
+				String Pass = new String (ps.getPassword());
+				if (txtUsuario.getText().equalsIgnoreCase(Usuario) && Pass.equals(Contraseña)) {
+				prueba tt = new prueba();
+			    tt.setVisible(true);
+			    dispose();
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Algo esta mal,intente otra vez");
+				}
+			}
+		});
+		btnEntrar.setBounds(232, 315, 89, 23);
+		getContentPane().add(btnEntrar);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setBackground(new Color(192, 192, 192));
+		btnSalir.setBounds(68, 315, 89, 23);
+		getContentPane().add(btnSalir);
+		
+		
+		
+		
+		
+	
+		
+		
+	}
+}
