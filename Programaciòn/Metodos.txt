@@ -1,0 +1,120 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JOptionPane;
+
+public class Gestion {
+	String user;
+	String pass;
+	String url;
+	Connection conex;
+	Statement stm;
+
+	public Gestion() {
+		
+		user = "G7";
+		pass = "plaiaundi";
+		url = "jdbc:oracle:thin:@91.200.117.27:49161:xe";
+		conex = null;
+		stm = null;
+
+	}
+
+	public void conectar() {
+
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conex = DriverManager.getConnection(url, user, pass);
+			
+			//JOptionPane.showMessageDialog(null, "Conexon realizada");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No se realizo la conexion");
+		}
+
+	}
+
+	public void crearTabla() throws SQLException {
+		stm = conex.createStatement();
+		int r=0;
+		String cadSql;
+		try {
+			cadSql = "create table ALUMNO (DNI_alumno VARCHAR2(9) PRIMARY KEY, Nombre VARCHAR2(20),Apellido VARCHAR(15), Edad NUMBER(2),ID_Grupo NUMBER(2), ID_TutorLegal VARCHAR2(9) ,FOREIGN KEY (ID_Grupo) REFERENCES Grupo (ID_Grupo),FOREIGN KEY (ID_TutorLegal) REFERENCES TutorLegal (DNI_TutorLegal)) ";
+			
+			r=stm.executeUpdate(cadSql);
+			
+			JOptionPane.showMessageDialog(null, (r+1)+" tabla creada");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "La tabla no se creo");
+		}
+
+	}
+
+	public String leerDatosBD() throws SQLException {
+		stm = conex.createStatement();
+		String cadSql = "";
+		try {
+			cadSql = "select * from Alumno";
+			ResultSet rs = stm.executeQuery(cadSql);
+			String datos = "";
+			datos +=("   DNI" + "        | " + " NOMBRE" + " | " + "APELLIDO " + " |" + " EDAD" + " | " + "GRUPO" + "  | " + " TUTOR ");
+			while (rs.next()) {
+				datos += ("\n"+rs.getString(1) +"    | "+ rs.getString(2) + "        |" + rs.getString(3)+   "           | " + rs.getString(4)+ "       | "+rs.getString(5)+ "               | " + rs.getString(6) + "\n");
+			}
+
+			return datos;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "La tabla no existe" + e.getMessage());
+			return null;
+		}
+
+	}
+ 
+	public String buscarDatosBD(String DNI_alumno) throws SQLException {
+		stm = conex.createStatement();
+
+		String cadSql;
+
+		try {
+			String nombre = "";
+			cadSql = "select * from ALUMNO where DNI_Alumno=" + DNI_alumno;
+			ResultSet rs = stm.executeQuery(cadSql);
+			while (rs.next()) {
+				nombre = rs.getString(1) + " " + rs.getString(2) + " "+ rs.getString(3) +" " + rs.getString(4)+" "+rs.getString(5)+" " + rs.getString(6) + "\n";
+
+			}
+			return nombre;
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "El codigo no existe" + e.getMessage());
+
+			return null;
+		}
+
+	}
+
+	public void eliminarDatos(String DNI_alumno) throws SQLException {
+		int r;
+		String cadSql;
+		stm = conex.createStatement();
+		try {
+			cadSql = "delete from ALUMNO where DNI_Alumno='" + DNI_alumno + "'";
+			r = stm.executeUpdate(cadSql);
+			JOptionPane.showMessageDialog(null, r + " registro eliminado");
+			;
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No se encontro el registro");
+		}
+	}
+
+
+
+	public Connection getConex() {
+		return conex;
+	}
+
+	
+
+}

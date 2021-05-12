@@ -1,0 +1,148 @@
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import javax.swing.border.BevelBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Button;
+import javax.swing.SwingConstants;
+import java.awt.Point;
+import java.awt.Dimension;
+
+public class Menu extends JFrame {
+    ConexionOracle objConex;
+	private JPanel contentPane;
+
+	public static void main(String[] args) {
+		
+			
+				try {
+					Menu menu = new Menu();
+					menu.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		
+	public Menu() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(400,400);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(204, 204, 255));
+		contentPane.setBorder(new BevelBorder(BevelBorder.LOWERED, new Color(0, 0, 51), new Color(0, 0, 51), new Color(0, 0, 51), new Color(0, 0, 51)));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		setUndecorated(true);
+		
+		JLabel lblElijaUnaOpcion = new JLabel("Elija una opcion : ");
+		lblElijaUnaOpcion.setFont(new Font("Source Serif Pro Light", Font.BOLD, 18));
+		lblElijaUnaOpcion.setBounds(118, 26, 155, 60);
+		contentPane.add(lblElijaUnaOpcion);
+		
+		JLabel lblBienvenido = new JLabel("Bienvenido !");
+		lblBienvenido.setFont(new Font("Times New Roman", Font.BOLD, 15));
+		lblBienvenido.setBounds(150, 0, 94, 29);
+		contentPane.add(lblBienvenido);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setBackground(new Color(255, 0, 0));
+		btnSalir.setForeground(new Color(255, 255, 255));
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnSalir.setFont(new Font("Agency FB", Font.BOLD, 16));
+		
+		btnSalir.setBounds(24, 327, 79, 23);
+		contentPane.add(btnSalir);
+		
+		JButton button = new JButton("Dar de baja");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Baja bj = new Baja();
+				bj.setVisible(true);
+				dispose();
+				
+			}
+		});
+		
+		button.setRolloverIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\dardebaja96px.png"));
+		button.setPressedIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\dardebaja72px.png"));
+		button.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		button.setBorderPainted(false);
+		button.setContentAreaFilled(false);
+		button.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button.setHorizontalTextPosition(SwingConstants.CENTER);
+		button.setIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\dardebaja72px.png"));
+		button.setBounds(184, 93, 110, 103);
+		contentPane.add(button);
+		
+		JButton button_1 = new JButton("Dar de alta");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				DardeAlta da = new DardeAlta();
+				da.setVisible(true);
+				dispose();
+				
+			}
+		});
+		button_1.setBorderPainted(false);
+		button_1.setRolloverIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\dardealta96px.png"));
+		button_1.setPressedIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\dardealta72px.png"));
+		button_1.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button_1.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_1.setContentAreaFilled(false);
+		button_1.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		button_1.setIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\dardealta72px.png"));
+		button_1.setBounds(58, 97, 116, 99);
+		contentPane.add(button_1);
+		
+		JButton button_2 = new JButton("Modificar Datos");
+		
+		button_2.setRolloverIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\modificar96px.png"));
+		button_2.setPressedIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\modificar72px.png"));
+		button_2.setVerticalAlignment(SwingConstants.BOTTOM);
+		button_2.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		button_2.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button_2.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_2.setIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\modificar72px.png"));
+		button_2.setContentAreaFilled(false);
+		button_2.setBorderPainted(false);
+		button_2.setBounds(34, 217, 141, 99);
+		contentPane.add(button_2);
+		
+		JButton button_3 = new JButton("Busqueda");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Busqueda bq = new Busqueda();
+				bq.setVisible(true);
+				dispose();
+			}
+		});
+		button_3.setRolloverIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\buscar96px.png"));
+		button_3.setPressedIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\buscar72px.png"));
+		button_3.setFont(new Font("Comic Sans MS", Font.BOLD, 13));
+		button_3.setVerticalTextPosition(SwingConstants.BOTTOM);
+		button_3.setHorizontalTextPosition(SwingConstants.CENTER);
+		button_3.setIcon(new ImageIcon("C:\\Users\\neres\\Downloads\\buscar72px.png"));
+		button_3.setContentAreaFilled(false);
+		button_3.setBorderPainted(false);
+		button_3.setBounds(194, 217, 118, 94);
+		contentPane.add(button_3);
+	}
+	
+	
+
+}
+	

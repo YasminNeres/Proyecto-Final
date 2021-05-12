@@ -1,0 +1,171 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextPane;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.SystemColor;
+
+public class Baja extends JFrame implements ActionListener{
+
+	Gestion Baja;
+
+	JButton btnListar, btnEliminar, btnDesconectar,btnCrear;
+	JTextArea txaArea;
+	JScrollPane scpArea;
+	private JPanel panel;
+	private JButton btnVolver;
+	private JButton btnCrear_1;
+	
+	public Baja() {
+		Baja = new Gestion();
+		setSize(500, 400);
+		setTitle("Eliminar Alumno");
+
+	
+		btnListar = new JButton("Listar");
+		btnListar.setBackground(new Color(255, 255, 153));
+		btnListar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnListar.setBounds(89, 69, 100, 20);
+		btnListar.addActionListener(this);
+		getContentPane().setLayout(null);
+		getContentPane().add(btnListar);
+
+	   
+
+		/*btnCrear = new JButton("Crear");
+		btnCrear.setBackground(new Color(255, 255, 153));
+		btnCrear.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnCrear.setBounds(89, 69, 100, 20);
+		btnCrear.addActionListener(this);
+		getContentPane().setLayout(null);
+		getContentPane().add(btnCrear);*/
+		
+		
+
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setForeground(new Color(255, 255, 255));
+		btnEliminar.setBackground(new Color(0, 255, 51));
+		btnEliminar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnEliminar.setBounds(235, 69, 100, 20);
+		btnEliminar.addActionListener(this);
+		getContentPane().add(btnEliminar);
+
+		txaArea = new JTextArea();
+		scpArea = new JScrollPane(txaArea);
+		scpArea.setBounds(20, 100, 410, 140);
+		getContentPane().add(scpArea);
+
+		
+		btnDesconectar = new JButton("Desconectar la BD");
+		btnDesconectar.setBackground(new Color(0, 0, 0));
+		btnDesconectar.setBounds(280, 260, 160, 20);
+		btnDesconectar.setForeground(new Color(255, 255, 255));
+		btnDesconectar.addActionListener(this);
+		getContentPane().add(this.btnDesconectar);
+		
+		panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
+		panel.setBounds(0, 0, 484, 39);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblEliminarAlumno = new JLabel("Eliminar Alumno");
+		lblEliminarAlumno.setFont(new Font("Noto Serif", Font.ITALIC, 21));
+		lblEliminarAlumno.setBounds(161, 11, 175, 17);
+		panel.add(lblEliminarAlumno);
+		
+		btnVolver = new JButton("Volver");
+		btnVolver.setBackground(Color.RED);
+		btnVolver.setForeground(new Color(255, 255, 255));
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Menu mn = new Menu();
+				mn.setVisible(true);
+				dispose();
+			}
+		});
+		btnVolver.setBounds(70, 260, 89, 23);
+		getContentPane().add(btnVolver);
+		
+		
+		btnCrear_1 = new JButton("Crear");
+		btnCrear_1.setBounds(70, 313, 89, 23);
+		btnCrear_1.addActionListener(this);
+		getContentPane().add(btnCrear_1);
+	
+
+		setLocationRelativeTo(null);
+		setVisible(true);
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		try {
+			
+			if (e.getSource() == btnListar) {
+				Baja.conectar();
+				txaArea.setText(Baja.leerDatosBD());	
+			}
+			
+			if (e.getSource() == btnCrear_1) {
+				Baja.conectar();
+				Baja.crearTabla();	
+			}
+			
+			
+
+			
+			if (e.getSource() == btnEliminar) {
+				Baja.conectar();
+				String id = JOptionPane.showInputDialog("Ingrese el id");
+				Baja.eliminarDatos(id);
+				txaArea.setText(Baja.leerDatosBD());
+			}
+
+
+			if (e.getSource() == btnDesconectar) {
+
+				try {
+					Baja.getConex().close();
+
+					JOptionPane.showMessageDialog(null,
+							"Base de datos desconectada");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null,
+							"La base de datos aun sigue conectada");
+				}
+
+			}
+
+		} catch (Exception e2) {
+			// TODO: handle exception
+		}
+
+	}
+
+	public static void main(String[] args) throws SQLException {
+
+		new Baja();
+
+	}
+}
+

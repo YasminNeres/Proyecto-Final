@@ -1,0 +1,137 @@
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.SystemColor;
+
+public class Busqueda extends JFrame implements ActionListener {
+
+	Gestion Buscar;
+
+	JButton btnBuscar, btnListar,  btnDesconectar;
+	JTextArea txaArea;
+	JScrollPane scpArea;
+	private JPanel panel;
+	private JLabel lblBuscarAlumno;
+	private JButton btnVolver;
+
+	public Busqueda() {
+	 Buscar = new Gestion();
+		setSize(500, 400);
+		setTitle("Buscar Alumno");
+
+	
+
+		btnListar = new JButton("Listar");
+		btnListar.setForeground(new Color(255, 255, 255));
+		btnListar.setBackground(new Color(255, 0, 102));
+		btnListar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnListar.setBounds(91, 57, 100, 20);
+		btnListar.addActionListener(this);
+		getContentPane().setLayout(null);
+		getContentPane().add(btnListar);
+
+		btnBuscar = new JButton("Buscar");
+		btnBuscar.setBackground(new Color(0, 204, 51));
+		btnBuscar.setForeground(new Color(255, 255, 255));
+		btnBuscar.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnBuscar.setBounds(282, 57, 100, 20);
+		btnBuscar.addActionListener(this);
+		getContentPane().add(btnBuscar);
+
+		txaArea = new JTextArea();
+		scpArea = new JScrollPane(txaArea);
+		scpArea.setBounds(20, 100, 410, 140);
+		getContentPane().add(scpArea);
+
+
+		btnDesconectar = new JButton("Desconectar la BD");
+		btnDesconectar.setBackground(SystemColor.windowText);
+		btnDesconectar.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnDesconectar.setBounds(243, 251, 160, 23);
+		btnDesconectar.setForeground(SystemColor.text);
+		btnDesconectar.addActionListener(this);
+		getContentPane().add(this.btnDesconectar);
+		
+		panel = new JPanel();
+		panel.setBounds(0, 0, 494, 46);
+		panel.setBackground(SystemColor.activeCaption);
+		getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		lblBuscarAlumno = new JLabel("Buscar Alumno");
+		lblBuscarAlumno.setFont(new Font("Noto Serif", Font.ITALIC, 21));
+		lblBuscarAlumno.setBounds(171, 11, 183, 25);
+		panel.add(lblBuscarAlumno);
+		
+		btnVolver = new JButton("Volver");
+		btnVolver.setBackground(Color.RED);
+		btnVolver.setForeground(Color.WHITE);
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Menu mn = new Menu();
+				mn.setVisible(true);
+				dispose();
+			}
+		});
+		btnVolver.setBounds(73, 251, 89, 23);
+		getContentPane().add(btnVolver);
+
+		setLocationRelativeTo(null);
+		setVisible(true);
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		try {
+			
+			if (e.getSource() == btnListar) {
+				Buscar.conectar();
+				txaArea.setText(Buscar.leerDatosBD());
+			}
+
+			if (e.getSource() == btnBuscar) {
+				Buscar.conectar();
+				String DNI_Alumno = JOptionPane.showInputDialog("Ingrese el id");
+				txaArea.setText(Buscar.buscarDatosBD(DNI_Alumno));
+			}
+
+			if (e.getSource() == btnDesconectar) {
+
+				try {
+					Buscar.getConex().close();
+
+					JOptionPane.showMessageDialog(null,
+							"Base de datos desconectada");
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null,
+							"La base de datos aun sigue conectada");
+				}
+
+			}
+
+		} catch (Exception e2) {
+			// TODO: handle exception
+		}
+
+	}
+
+	public static void main(String[] args) throws SQLException {
+
+		new Busqueda();
+
+	}
+
+}

@@ -1,0 +1,254 @@
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.SystemColor;
+import java.awt.TextArea;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+
+public class DardeAlta extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField textDNI;
+	private JTextField textNombre;
+	private JTextField textApellido;
+	private JTextField textEdad;
+	private JTextField textIDTutor;
+	private JTextField textGrupo;
+    private JComboBox cbmGrupo;
+	
+		JScrollPane jScrollPane1 = new JScrollPane();
+        
+	
+
+	
+	
+	PreparedStatement ps ;
+	ResultSet rs ;
+	public static Connection getConexion() {
+		
+		PreparedStatement ps ;
+		ResultSet rs ;
+	String user;
+	String pass;
+	String url;
+	Connection conex;
+	Statement stm;
+		
+	user = "G7";
+	pass = "plaiaundi";
+	url = "jdbc:oracle:thin:@91.200.117.27:49161:xe";
+	conex = null;
+	stm = null;
+		
+
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conex = DriverManager.getConnection(url, user, pass);
+			
+			JOptionPane.showMessageDialog(null, "Conexon realizada");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No se realizo la conexion");
+		}
+		return conex ;
+
+	}
+
+	
+	public void LimpiarCaja() {
+		
+		textDNI.setText(null);
+		textNombre.setText(null);
+		textApellido.setText(null);
+		textEdad.setText(null);
+		cbmGrupo.setSelectedIndex(0);
+		textIDTutor.setText(null);
+	}
+	public static void main(String[] args) {
+		
+				try {
+					DardeAlta frame = new DardeAlta();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		
+	
+
+	
+	public DardeAlta() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaption);
+		panel.setBounds(0, 0, 684, 64);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblAgregarUsuario = new JLabel("Agregar Usuario");
+		lblAgregarUsuario.setFont(new Font("Noto Serif", Font.ITALIC, 21));
+		lblAgregarUsuario.setBounds(145, 11, 202, 30);
+		panel.add(lblAgregarUsuario);
+		
+		JLabel lblNombre = new JLabel("Nombre : ");
+		lblNombre.setFont(new Font("Noto Serif", Font.PLAIN, 15));
+		lblNombre.setBounds(42, 134, 94, 27);
+		contentPane.add(lblNombre);
+		
+		JLabel lblApellido = new JLabel("Apellido :");
+		lblApellido.setFont(new Font("Noto Serif", Font.PLAIN, 15));
+		lblApellido.setBounds(42, 172, 94, 27);
+		contentPane.add(lblApellido);
+		
+		JLabel lblEdad = new JLabel("Edad :");
+		lblEdad.setFont(new Font("Noto Serif", Font.PLAIN, 15));
+		lblEdad.setBounds(42, 210, 56, 27);
+		contentPane.add(lblEdad);
+		
+		JLabel lblDnialumno = new JLabel("DNI_Alumno : ");
+		lblDnialumno.setFont(new Font("Noto Serif", Font.PLAIN, 15));
+		lblDnialumno.setBounds(40, 109, 112, 14);
+		contentPane.add(lblDnialumno);
+		
+		JLabel lblGrupo = new JLabel("Grupo : ");
+		lblGrupo.setFont(new Font("Noto Serif", Font.PLAIN, 15));
+		lblGrupo.setBounds(42, 248, 69, 30);
+		contentPane.add(lblGrupo);
+		
+		JLabel lblIdtutor = new JLabel("IDTutor : ");
+		lblIdtutor.setFont(new Font("Noto Serif", Font.PLAIN, 15));
+		lblIdtutor.setBounds(42, 287, 78, 27);
+		contentPane.add(lblIdtutor);
+		
+		textDNI = new JTextField();
+		textDNI.setBounds(182, 108, 159, 20);
+		contentPane.add(textDNI);
+		textDNI.setColumns(10);
+		
+		textNombre = new JTextField();
+		textNombre.setBounds(182, 139, 159, 20);
+		contentPane.add(textNombre);
+		textNombre.setColumns(10);
+		
+		textApellido = new JTextField();
+		textApellido.setBounds(182, 177, 159, 20);
+		contentPane.add(textApellido);
+		textApellido.setColumns(10);
+		
+		textEdad = new JTextField();
+		textEdad.setBounds(182, 215, 159, 20);
+		contentPane.add(textEdad);
+		textEdad.setColumns(10);
+		
+		
+		
+		textIDTutor = new JTextField();
+		textIDTutor.setBounds(182, 292, 159, 20);
+		contentPane.add(textIDTutor);
+		textIDTutor.setColumns(10);
+		setSize(480,450);
+		
+		cbmGrupo = new JComboBox();
+		cbmGrupo.setEditable(true);
+		cbmGrupo.setModel(new DefaultComboBoxModel(new String[] {"Selecciona", "1", "2", "3", "4"}));
+		cbmGrupo.setBounds(182, 253, 120, 24);
+		contentPane.add(cbmGrupo);
+		
+		
+		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setBackground(Color.GREEN);
+		btnAgregar.setForeground(Color.WHITE);
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Connection con = null;
+				try {
+					con = getConexion();
+					ps = con.prepareStatement("INSERT INTO Alumno(DNI_Alumno,Nombre,Apellido,Edad,ID_Grupo,ID_TutorLegal) VALUES(?,?,?,?,?,?)");
+					ps.setString(1, textDNI.getText());
+					ps.setString(2, textNombre.getText());
+					ps.setString(3, textApellido.getText());
+					ps.setString(4, textEdad.getText());
+					ps.setString(5, cbmGrupo.getSelectedItem().toString());
+					ps.setString(6, textIDTutor.getText());
+					
+					int rs = ps.executeUpdate();
+					if(rs > 0 ){
+						JOptionPane.showMessageDialog(null, " registro agregado");
+						LimpiarCaja();
+					}else {
+						JOptionPane.showMessageDialog(null,  " registro no agregado" );
+						LimpiarCaja();
+					}
+				
+					
+				}catch(Exception e1) {
+					e1.getMessage();
+					
+				}
+			}
+		});
+		btnAgregar.setBounds(213, 357, 89, 23);
+		contentPane.add(btnAgregar);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnVolver.setBackground(Color.RED);
+		btnVolver.setForeground(Color.WHITE);
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Menu mn = new Menu();
+				mn.setVisible(true);
+				dispose();
+			}
+		});
+		btnVolver.setBounds(42, 357, 89, 23);
+		contentPane.add(btnVolver);
+		
+		
+		
+		
+		
+		
+
+    
+}
+}
+		
+		
+		
+		
+	
+
+
